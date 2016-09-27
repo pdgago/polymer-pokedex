@@ -68,7 +68,7 @@
 
     _pokemonNameChanged(pokemonName, old) {
       if (pokemonName) {
-        let url = `http://pokeapi.co/api/v2/${this.dataType}/${pokemonName.toLowerCase()}`;
+        let url = `https://pokeapi.co/api/v2/${this.dataType}/${pokemonName.toLowerCase()}`;
 
         this._localStorageKey = url;
         this._localStorageData = null;
