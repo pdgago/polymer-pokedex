@@ -1,0 +1,107 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`polymer-pokedex-data`
+-->
+
+<dom-module id="polymer-pokedex-data">
+  <template>
+
+    <iron-ajax
+        id="ironAjax"
+        handle-as="json"
+        on-error="_handleError"
+        on-response="_handleResponse"
+        last-response="{{data}}"></iron-ajax>
+
+    <app-localstorage-document
+        id="localStorage"
+        key="{{_localStorageKey}}"
+        data="{{_localStorageData}}"></app-localstorage-document>
+
+  </template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'polymer-pokedex-data',
+
+    properties: {
+
+      pokemonName: {
+        type: String,
+        observer: '_pokemonNameChanged' 
+      },
+
+      data: {
+        type: Object,
+        notify: true
+      },
+
+      // for more checkout https://pokeapi.co/docsv2/#info
+      dataType: {
+        type: String,
+        value: 'pokemon'
+      },
+
+      loading: {
+        type: Boolean,
+        readOnly: true,
+        notify: true
+      },
+
+      error: {
+        type: Boolean,
+        readOnly: true,
+        notify: true
+      },
+
+      _localStorageKey: String,
+
+      _localStorageData: Object
+
+    },
+
+    _pokemonNameChanged(pokemonName, old) {
+      if (pokemonName) {
+        let url = `http://pokeapi.co/api/v2/${this.dataType}/${pokemonName.toLowerCase()}`;
+
+        this._localStorageKey = url;
+        this._localStorageData = null;
+        this._setLoading(true);
+        this._setError(false);
+
+        // it's in the local storage? 
+        this.$.localStorage.initializeStoredValue().then(() => {
+          if (this._localStorageData) {
+            console.log('from localstorage');
+            this.data = this._localStorageData;
+            this._setLoading(false);
+          } else {
+            console.log('from api');
+            this.$.ironAjax.url = url;
+            this.$.ironAjax.generateRequest();
+          }
+        });
+      }
+    },
+
+    _handleError() {
+      this._setLoading(false);
+      this._setError(true);
+    },
+
+    _handleResponse() {
+      if (this.data !== null) {
+        this._localStorageData = this.data;
+      }
+      this._setLoading(false);
+    }
+
+  });
+
+</script>

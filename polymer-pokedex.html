@@ -1,0 +1,192 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="polymer-pokedex-data.html">
+
+<!--
+`polymer-pokedex`
+
+
+@demo demo/index.html 
+-->
+
+<dom-module id="polymer-pokedex">
+  <template>
+    <style>
+
+      :host {
+        background: #fff;
+        display: block;
+        padding: 16px;
+        position: relative;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .pokemon-picture {
+        display: inline-block;
+        width: 96px;
+        height: 96px;
+        margin-bottom: 20px;
+
+        background-color: #f2f2f2;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        vertical-align: middle;
+      }
+
+      .pokemon-name {
+        text-transform: capitalize;
+        font-size: 22px;
+      }
+
+      .pokemon-abilities {
+        background: #f2f2f2;
+        padding: 10px;
+        margin-top: 20px;
+        text-decoration: italic;
+      }
+
+      .detail {
+        @apply(--layout-horizontal);
+      }
+
+      .detail .col {
+        @apply(--layout-flex);
+        text-align: center;
+        padding: 0 10px;
+        border-right: 1px solid #ddd;
+      }
+
+      .detail .col:first-child {
+        padding-left: 0;
+      }
+
+      .detail .col:last-child {
+        border: none;
+        padding-right: 0;
+      }
+
+      .detail .col label {
+        display: block;
+        margin-top: 3px;
+        font-size: 13px;
+        color: #777;
+        text-align: center;
+      }
+
+      /*loading*/
+      #spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      }
+
+      :host([loading]) .container {
+        opacity: 0.3;
+      }
+
+    </style>
+
+    <polymer-pokedex-data
+        error="{{error}}"
+        loading="{{loading}}"
+        pokemon-name="[[pokemonName]]"
+        data="{{data}}"></polymer-pokedex-data>
+
+    <paper-spinner id="spinner" active="[[loading]]"></paper-spinner>
+
+    <template is="dom-if" if="[[!error]]">
+      <div class="container">
+        <header>
+          <div class="pokemon-picture" title$="[[data.name]]" style$="[[_computePokemonPicture(data)]]"></div>
+          <div class="pokemon-name">{{data.name}}</div>
+        </header>
+
+        <section class="detail">
+          <div class="col">
+            <div>{{_computePokemonType(data)}}</div>
+            <label>Type</label>
+          </div>
+          <div class="col">
+            <div>{{data.weight}} kg</div>
+            <label>Weight</label>
+          </div>
+          <div class="col">
+            <div>{{data.height}} m</div>
+            <label>Height</label>
+          </div>
+        </section>
+
+        <div class="pokemon-abilities">Abilities: {{_computeAbilities(data)}}.</div>
+      </div>
+    </template>
+
+    <template is="dom-if" if="[[error]]">
+      <div>Pokemon not found.</div>
+    </template>
+
+  </template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'polymer-pokedex',
+
+    properties: {
+
+      pokemonName: String,
+
+      data: {
+        type: Object,
+        notify: true
+      },
+
+      loading: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
+
+      error: Boolean
+
+    },
+
+    _computePokemonType(data) {
+      if (data) {
+        return data.types.map((d) => {
+          return this._capitalizeFirst(d.type.name);
+        }).join('/');
+      }
+    },
+
+    _computePokemonPicture(data) {
+      if (data) {
+        return `background-image: url('${data.sprites.front_default}')`;
+      }
+    },
+
+    _computeAbilities(data) {
+      if (data) {
+        return data.abilities.map((ability) => {
+          return this._capitalizeFirst(ability.ability.name);
+        }).join(', ');
+      }
+    },
+
+    _capitalizeFirst(srt) {
+      return srt.charAt(0).toUpperCase() + srt.slice(1);
+    }
+
+  });
+
+</script>
