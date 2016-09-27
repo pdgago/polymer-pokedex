@@ -1,4 +1,4 @@
-  _[View the demo](https://google.com)_
+  _[View the demo](https://goo.gl/fj7UBd)_
 
 # \<polymer-pokedex\>
 
