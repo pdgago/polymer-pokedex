@@ -117,11 +117,11 @@
             <label>Type</label>
           </div>
           <div class="col">
-            <div>{{data.weight}} kg</div>
+            <div>{{_computeWeight(data.weight)}} kg</div>
             <label>Weight</label>
           </div>
           <div class="col">
-            <div>{{data.height}} m</div>
+            <div>{{_computeHeight(data.height)}} m</div>
             <label>Height</label>
           </div>
         </section>
@@ -185,6 +185,14 @@
 
     _capitalizeFirst(srt) {
       return srt.charAt(0).toUpperCase() + srt.slice(1);
+    },
+
+    _computeWeight(weight) {
+      return weight / 10;
+    },
+
+    _computeHeight(height) {
+      return height / 10;
     }
 
   });
