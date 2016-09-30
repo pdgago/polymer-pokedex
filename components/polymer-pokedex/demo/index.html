@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-pokedex demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    
+    <link rel="shortcut icon" href="favicon.ico"/> 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="import" href="../../paper-styles/shadow.html">
+    <link rel="import" href="../../paper-input/paper-input.html">    
+    <link rel="import" href="../polymer-pokedex.html">
+
+    <style is="custom-style">
+
+      body {
+        margin: 0;
+        font-family: 'Open Sans', sans-serif;
+        line-height: 1.5;
+        min-height: 100vh;
+        background-color: #eeeeee;
+        background: url('../images/bg.jpg');
+      }
+
+      .input-container {
+        background: white;
+        padding: 16px;
+      }
+
+      .caption {
+        font-size: 13px;
+        color: #999;
+        font-style: italic;
+      }
+
+      .layout {
+        max-width: 640px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+
+      @media (min-width: 640px) {
+        polymer-pokedex,
+        .input-container {
+          @apply(--shadow-elevation-2dp);
+          border-radius: 8px;
+          margin-bottom: 20px;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <template id="app" is="dom-bind">
+      <div class="layout">
+        <h3>polymer-pokedex demo</h3>
+        
+        <div class="input-container">
+          <paper-input label="Pokemon name" value="{{_inputValue}}" on-keydown="onKeydown"></paper-input>
+          <span class="caption">Try Haunter, Snorlax or Mewtwo.</span>
+        </div>
+
+        <polymer-pokedex pokemon-name="{{pokemonName}}"></polymer-pokedex>
+      </div>
+    </template>
+
+    <script>
+      var app = document.querySelector('#app');
+      app._inputValue = 'bulbasaur';
+
+      function updatePokedexFromInput() {
+        app.pokemonName = app._inputValue
+      }
+
+      app.onKeydown = (event) => {
+        var enterKey = 13;
+        if (event.keyCode === enterKey) {
+          updatePokedexFromInput();
+        }
+      };
+
+      updatePokedexFromInput();
+    </script>
+
+  </body>
+</html>

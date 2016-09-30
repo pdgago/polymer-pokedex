@@ -1,0 +1,27 @@
+{
+  "name": "polymer-pokedex",
+  "main": "polymer-pokedex.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "app-storage": "PolymerElements/app-storage#^0.9.6",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "paper-input": "PolymerElements/paper-input#^1.1.20",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/pdgago/polymer-pokedex",
+  "_release": "bd01cc8dec",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "bd01cc8dec14e14d3fc831a5d0145c491f060fb7"
+  },
+  "_source": "git://github.com/pdgago/polymer-pokedex.git",
+  "_target": "master",
+  "_originalSource": "pdgago/polymer-pokedex",
+  "_direct": true
+}
